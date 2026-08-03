@@ -1,4 +1,4 @@
-# Artixlinux 
+# Installation
 Installation guide for artixlinux with uki, secure boot, LUKS, and btrfs.
 
 ## Root privilege
@@ -154,7 +154,7 @@ Use mkinitcpio for generate a kernel and make a uki
     nano /etc/mkinitcpio.conf
     "HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)"
     nano /etc/mkinitcpio.d/linux-zen.preset
-# mkinitcpio preset file for the 'linux-zen' package
+#mkinitcpio preset file for the 'linux-zen' package
 #ALL_config="/etc/mkinitcpio.conf"
 ALL_kver="/boot/vmlinuz-linux-zen"
 PRESETS=('default' 'fallback')
