@@ -6,24 +6,32 @@ Run as administrator
 • sudo su or sudo -i
 
 --Make partition--
+
 Divide some part of storage into a pieces of partition
+
 • cfdisk /dev/nvme0n1
 /dev/nvme0n1p1 (1GB) type= "EFI system"
 /dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
 • lsblk
 
 --Encryption--
+
 For security purposes 
+
 • cryptsetup luksFormat --type luks2 /dev/nvme0n1p2
 • cryptsetup open /dev/nvme0n1p2 artixcrypt
 
 --Formatting filesystem--
+
 Format the filesystem for boot partition and root partition
+
 • mkfs.vfat -n ARTIXEFI -F32 /dev/nvme0n1p1
 • mkfs.btrfs /dev/mapper/artixcrypt
 
 --Mounts--
+
 Mounting all files
+
 • mount /dev/mapper/artixcrypt /mnt
 • btrfs subvolume create /mnt/@
 • btrfs subvolume create /mnt/@home
@@ -43,41 +51,55 @@ Mounting all files
 • mount -t vfat /dev/nvme0n1p1 /mnt/efi
 
 --Pacman settings--
+
 Make a download faster and easter egg
+
 • nano /etc/pacman.conf
 #ParallelDownloads=5  --remove (#) and change 5 to 10
 #Color  --remove (#)
 ILoveCandy --add this at the first line of  #Misc options section
 
 --Base system--
+
 Install a basic packages system
+
 • basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode neovim btrfs-progs
 • sudo cp /etc/pacman.conf /mnt/etc/pacman.conf
 
 --Fstabgen--
+
 Auto detect mounting filesystem
+
 • fstabgen -U /mnt >> /mnt/etc/fstab
 • nano /mnt/etc/fstab  --check the result if there is an error or modify something
 
 --Chroot--
+
 Change root from iso to installed system
+
 • artix-chroot /mnt
 
 --Swap--
+
 Taking some storage for virtual ram
+
 • btrfs filesystem mkswapfile --size 8g /swap/swapfile
 • swapon /swap/swapfile --fstab settings needed
 • echo "/swap/swapfile    none    swap    defaults    0    0"  >> /etc/fstab
 
 --Packages--
+
 Install some necessary packages
+
 • pacman-key --init
 • pacman-key --populate artix
 • pacman -Sy artix-keyring
 • pacman -S dinit elogind elogind-dinit mkinitcpio egummiboot efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit udev pipewire pipewire-dinit wireplumber git bash alacritty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety
 
 --Services--
+
 Activate some necessary services
+
 • ln -s /etc/dinit.d/elogind /etc/dinit.d/boot.d/
 • ln -s /etc/dinit.d/udev /etc/dinit.d/boot.d/
 • ln -s /etc/dinit.d/cryptsetup /etc/dinit.d/boot.d/
@@ -87,11 +109,14 @@ Activate some necessary services
 • ln -s /etc/dinit.d/greetd /etc/dinit.d/boot.d/
 
 --Time--
+
 Make a timezone
+
 • ln -sf /usr/share/zoneinfo/Asia/Singapore /etc/localtime
 • hwclock --systohc
 
 --Localization--
+
 • export LANG=en_US.UTF-8
 • export LC_COLLATE=C
 • echo LANG=$LANG > /etc/locale.conf
@@ -100,7 +125,9 @@ Make a timezone
 • locale-gen
 
 --User settings--
+
 Make a username and add user to sudo privilege
+
 • echo artix-asus > /etc/hostname
 • useradd -m -G wheel -s /bin/bash maxwellbtw
 • passwd maxwellbtw
@@ -108,13 +135,16 @@ Make a username and add user to sudo privilege
 • EDITOR=nano visudo --remove (#) #%wheel ALL=(ALL:ALL) ALL
 
 --Networks--
+
 • nano /etc/hosts
    127.0.0.1        localhost
    ::1                   localhost
    127.0.1.1        artix-asus.localdomain  artix-asus
 
 --UKI--
+
 Use mkinitcpio for generate a kernel and make a uki
+
 • blkid /dev/nvme0n1p2
 • nano /etc/kernel/cmdline
 cryptdevice=UUID=numberluksid:artixcrypt root=/dev/mapper/artixcrypt rootfstype=btrfs rootflags=subvol=/@ rw
@@ -138,7 +168,9 @@ fallback_options="-S autodetect --cmdline /etc/kernel/cmdline_fallback"
 • mkinitcpio -p linux-zen
 
 --Secure boot--
+
 Make a Artixlinux support secure boot
+
 • sbctl status
 • sbctl create-keys
 • sbctl enroll-keys --microsoft
@@ -148,12 +180,16 @@ Make a Artixlinux support secure boot
 • sbctl sign --save /efi/EFI/Linux/artix-linux-zen-fallback.efi
 
 --Boot entries--
-Add the boot entries into UEFI 
+
+Add the boot entries into UEFI
+
 • efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "ArtixLinux-linux-zen" --loader 'EFI\Linux\artix-linux-zen.efi' --unicode
 • efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "ArtixLinux-linux-fallback" --loader 'EFI\Linux\artix-linux-zen-fallback.efi' --unicode
 
 --Reboot--
+
 To make sure if hooks is work run pacman -S linux-zen 
+
 • ls -la /efi/EFI/Linux/artix-linux-zen.efi
 • sbctl verify --make sure the list file is signed
 • exit
