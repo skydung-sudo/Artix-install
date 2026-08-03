@@ -34,52 +34,52 @@ Format the filesystem for boot partition and root partition
 
 Mounting all files
 
-• mount /dev/mapper/artixcrypt /mnt
-• btrfs subvolume create /mnt/@
-• btrfs subvolume create /mnt/@home
-• btrfs subvolume create /mnt/@.snapshots
-• btrfs subvolume create /mnt/@var_log
-• btrfs subvolume create /mnt/@var_cache
-• btrfs subvolume create /mnt/@swap
-• umount -l /mnt 
-•  MO=rw,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,commit=150
-• mount -o $MO,subvol=/@ /dev/mapper/artixcrypt /mnt
-• mkdir -p /mnt/{home,.snapshots,var/{cache,log},swap,efi}
-• mount -o $MO,subvol=/@home /dev/mapper/artixcrypt /mnt/home
-• mount -o $MO,subvol=/@.snapshots /dev/mapper/artixcrypt /mnt/.snapshots
-• mount -o $MO,subvol=/@var_cache /dev/mapper/artixcrypt /mnt/var/cache
-• mount -o $MO,subvol=/@var_log /dev/mapper/artixcrypt /mnt/var/log
-• mount -o rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
-• mount -t vfat /dev/nvme0n1p1 /mnt/efi
+    mount /dev/mapper/artixcrypt /mnt
+    btrfs subvolume create /mnt/@
+    btrfs subvolume create /mnt/@home
+    btrfs subvolume create /mnt/@.snapshots
+    btrfs subvolume create /mnt/@var_log
+    btrfs subvolume create /mnt/@var_cache
+    btrfs subvolume create /mnt/@swap
+    umount -l /mnt 
+    MO=rw,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,commit=150
+    mount -o $MO,subvol=/@ /dev/mapper/artixcrypt /mnt
+    mkdir -p /mnt/{home,.snapshots,var/{cache,log},swap,efi}
+    mount -o $MO,subvol=/@home /dev/mapper/artixcrypt /mnt/home
+    mount -o $MO,subvol=/@.snapshots /dev/mapper/artixcrypt /mnt/.snapshots
+    mount -o $MO,subvol=/@var_cache /dev/mapper/artixcrypt /mnt/var/cache
+    mount -o $MO,subvol=/@var_log /dev/mapper/artixcrypt /mnt/var/log
+    mount -o rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
+    mount -t vfat /dev/nvme0n1p1 /mnt/efi
 
 ## Pacman settings
 
 Make a download faster and easter egg
 
-• nano /etc/pacman.conf
-#ParallelDownloads=5  --remove (#) and change 5 to 10
-#Color  --remove (#)
-ILoveCandy --add this at the first line of  #Misc options section
+    nano /etc/pacman.conf
+    #ParallelDownloads=5  --remove (#) and change 5 to 10
+    #Color  --remove (#)
+    ILoveCandy --add this at the first line of  #Misc options section
 
 ## Base system
 
 Install a basic packages system
 
-• basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode neovim btrfs-progs
-• sudo cp /etc/pacman.conf /mnt/etc/pacman.conf
+    basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode neovim btrfs-progs
+    sudo cp /etc/pacman.conf /mnt/etc/pacman.conf
 
 ## Fstabgen
 
 Auto detect mounting filesystem
 
-• fstabgen -U /mnt >> /mnt/etc/fstab
-• nano /mnt/etc/fstab  --check the result if there is an error or modify something
+    fstabgen -U /mnt >> /mnt/etc/fstab
+    nano /mnt/etc/fstab  --check the result if there is an error or modify something
 
 ## Chroot
 
 Change root from iso to installed system
 
-• artix-chroot /mnt
+    artix-chroot /mnt
 
 ## Swap
 
