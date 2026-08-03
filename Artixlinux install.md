@@ -3,7 +3,8 @@
 ## Root privilege
 
 Run as administrator:
-• sudo su or sudo -i
+
+[sudo su or sudo -i]
 
 ## Make partition
 
