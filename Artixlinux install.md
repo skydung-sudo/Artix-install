@@ -8,28 +8,28 @@ Run as administrator:
 
 ## Make partition
 
-Divide some part of storage into a pieces of partition
+Divide some part of storage into a pieces of partition:
 
-• cfdisk /dev/nvme0n1
-/dev/nvme0n1p1 (1GB) type= "EFI system"
-/dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
-• lsblk
+    cfdisk /dev/nvme0n1
+    /dev/nvme0n1p1 (1GB) type= "EFI system"
+    /dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
+    lsblk
 
---Encryption--
+## Encryption
 
-For security purposes 
+For security purposes
 
-• cryptsetup luksFormat --type luks2 /dev/nvme0n1p2
-• cryptsetup open /dev/nvme0n1p2 artixcrypt
+    cryptsetup luksFormat --type luks2 /dev/nvme0n1p2
+    cryptsetup open /dev/nvme0n1p2 artixcrypt
 
---Formatting filesystem--
+## Formatting filesystem
 
 Format the filesystem for boot partition and root partition
 
-• mkfs.vfat -n ARTIXEFI -F32 /dev/nvme0n1p1
-• mkfs.btrfs /dev/mapper/artixcrypt
+    mkfs.vfat -n ARTIXEFI -F32 /dev/nvme0n1p1
+    mkfs.btrfs /dev/mapper/artixcrypt
 
---Mounts--
+## Mounts
 
 Mounting all files
 
@@ -51,7 +51,7 @@ Mounting all files
 • mount -o rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
 • mount -t vfat /dev/nvme0n1p1 /mnt/efi
 
---Pacman settings--
+## Pacman settings
 
 Make a download faster and easter egg
 
@@ -60,27 +60,27 @@ Make a download faster and easter egg
 #Color  --remove (#)
 ILoveCandy --add this at the first line of  #Misc options section
 
---Base system--
+## Base system
 
 Install a basic packages system
 
 • basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode neovim btrfs-progs
 • sudo cp /etc/pacman.conf /mnt/etc/pacman.conf
 
---Fstabgen--
+## Fstabgen
 
 Auto detect mounting filesystem
 
 • fstabgen -U /mnt >> /mnt/etc/fstab
 • nano /mnt/etc/fstab  --check the result if there is an error or modify something
 
---Chroot--
+## Chroot
 
 Change root from iso to installed system
 
 • artix-chroot /mnt
 
---Swap--
+## Swap
 
 Taking some storage for virtual ram
 
@@ -88,7 +88,7 @@ Taking some storage for virtual ram
 • swapon /swap/swapfile --fstab settings needed
 • echo "/swap/swapfile    none    swap    defaults    0    0"  >> /etc/fstab
 
---Packages--
+## Packages
 
 Install some necessary packages
 
@@ -97,7 +97,7 @@ Install some necessary packages
 • pacman -Sy artix-keyring
 • pacman -S dinit elogind elogind-dinit mkinitcpio egummiboot efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit udev pipewire pipewire-dinit wireplumber git bash alacritty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety
 
---Services--
+## Services
 
 Activate some necessary services
 
@@ -109,14 +109,14 @@ Activate some necessary services
 • ln -s /etc/dinit.d/ufw /etc/dinit.d/boot.d/
 • ln -s /etc/dinit.d/greetd /etc/dinit.d/boot.d/
 
---Time--
+## Time
 
 Make a timezone
 
 • ln -sf /usr/share/zoneinfo/Asia/Singapore /etc/localtime
 • hwclock --systohc
 
---Localization--
+## Localization
 
 • export LANG=en_US.UTF-8
 • export LC_COLLATE=C
@@ -125,7 +125,7 @@ Make a timezone
 • nano /etc/locale.gen --remove (#) #en_US.UTF-8
 • locale-gen
 
---User settings--
+## User settings
 
 Make a username and add user to sudo privilege
 
@@ -135,14 +135,14 @@ Make a username and add user to sudo privilege
 • passwd
 • EDITOR=nano visudo --remove (#) #%wheel ALL=(ALL:ALL) ALL
 
---Networks--
+## Networks
 
 • nano /etc/hosts
    127.0.0.1        localhost
    ::1                   localhost
    127.0.1.1        artix-asus.localdomain  artix-asus
 
---UKI--
+## UKI
 
 Use mkinitcpio for generate a kernel and make a uki
 
@@ -168,7 +168,7 @@ fallback_options="-S autodetect --cmdline /etc/kernel/cmdline_fallback"
 • mkdir -p /efi/EFI/Linux
 • mkinitcpio -p linux-zen
 
---Secure boot--
+## Secure boot
 
 Make a Artixlinux support secure boot
 
@@ -180,14 +180,14 @@ Make a Artixlinux support secure boot
 • sbctl sign --save /efi/EFI/Linux/artix-linux-zen.efi
 • sbctl sign --save /efi/EFI/Linux/artix-linux-zen-fallback.efi
 
---Boot entries--
+## Boot entries
 
 Add the boot entries into UEFI
 
 • efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "ArtixLinux-linux-zen" --loader 'EFI\Linux\artix-linux-zen.efi' --unicode
 • efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "ArtixLinux-linux-fallback" --loader 'EFI\Linux\artix-linux-zen-fallback.efi' --unicode
 
---Reboot--
+## Reboot
 
 To make sure if hooks is work run pacman -S linux-zen 
 
