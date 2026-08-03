@@ -1,4 +1,5 @@
 # Artixlinux 
+Installation guide for artixlinux with uki, secure boot, LUKS, and btrfs.
 
 ## Root privilege
 
