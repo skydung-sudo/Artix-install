@@ -42,7 +42,9 @@ Mounting all files
     btrfs subvolume create /mnt/@var_cache
     btrfs subvolume create /mnt/@swap
     umount -l /mnt 
+    
     MO=rw,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,commit=150
+    
     mount -o $MO,subvol=/@ /dev/mapper/artixcrypt /mnt
     mkdir -p /mnt/{home,.snapshots,var/{cache,log},swap,efi}
     mount -o $MO,subvol=/@home /dev/mapper/artixcrypt /mnt/home
