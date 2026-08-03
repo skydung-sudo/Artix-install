@@ -5,7 +5,7 @@
 Run as administrator 
 • sudo su or sudo -i
 
---Make partition--
+## Make partition
 
 Divide some part of storage into a pieces of partition
 
