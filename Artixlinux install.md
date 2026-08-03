@@ -1,6 +1,6 @@
 # Artixlinux 
 
-# Root privilege
+## Root privilege
 
 Run as administrator 
 • sudo su or sudo -i
