@@ -107,6 +107,7 @@ Taking some storage for virtual ram
 
     btrfs filesystem mkswapfile --size 8g /swap/swapfile
     swapon /swap/swapfile
+    chmod 600 /swap/swapfile
     echo "/swap/swapfile    none    swap    defaults    0    0"  >> /etc/fstab
 
 ## Packages
