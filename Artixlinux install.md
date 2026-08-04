@@ -167,6 +167,19 @@ Uncomment this lines using nano
     ::1              localhost
     127.0.1.1        artix-asus.localdomain  artix-asus
 
+Configure the iwd
+
+    mkdir -p /etc/iwd
+    nano /etc/iwd/main.conf
+
+Add this to main.conf
+
+    [General]
+    EnableNetworkConfiguration=true
+
+    [Network]
+    NameResolvingService=resolvconf
+
 ## UKI
 Use mkinitcpio for generate a kernel and create a uki
 
