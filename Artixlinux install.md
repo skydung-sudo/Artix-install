@@ -175,7 +175,7 @@ Add the kernel parameters for the uki
     blkid /dev/nvme0n1p2
     nano /etc/kernel/cmdline
     
-    cryptdevice=UUID=numberluksid:artixcrypt root=/dev/mapper/artixcrypt" rootfstype=btrfs rootflags=subvol=/@ rw
+    cryptdevice=UUID=numberluksid:artixcrypt root=/dev/mapper/artixcrypt rootfstype=btrfs rootflags=subvol=/@ rw
 
 Then copy the cmdline to cmdline_fallback by this command
     
