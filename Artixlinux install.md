@@ -36,11 +36,13 @@ Format the filesystem for boot partition and root partition
     mkfs.vfat -n ARTIXEFI -F32 /dev/nvme0n1p1
     mkfs.btrfs /dev/mapper/artixcrypt
 
-## Mounts
+## Mounts and subvolumes
 
-Mounting all files
+Mount the luks file to /mnt
 
     mount /dev/mapper/artixcrypt /mnt
+
+Create a subvolumes
     
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
@@ -50,8 +52,12 @@ Mounting all files
     btrfs subvolume create /mnt/@swap
     
     umount -l /mnt 
+
+Create the variable
     
     MO=rw,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,commit=150
+
+Mounting all files
     
     mount -o $MO,subvol=/@ /dev/mapper/artixcrypt /mnt
     mkdir -p /mnt/{home,.snapshots,var/{cache,log},swap,efi}
