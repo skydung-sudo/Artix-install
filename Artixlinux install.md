@@ -159,11 +159,13 @@ Make a username and add user to sudo privilege
 Uncomment this lines using nano
 
     EDITOR=nano visudo
+    
     %wheel ALL=(ALL:ALL) ALL
 
 ## Networks
 
     nano /etc/hosts
+    
     127.0.0.1        localhost
     ::1              localhost
     127.0.1.1        artix-asus.localdomain  artix-asus
