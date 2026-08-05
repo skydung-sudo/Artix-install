@@ -15,8 +15,9 @@ Divide some part of storage into a pieces of partition
 
 This is example the layout of partition
 
-    /dev/nvme0n1p1 (1GB) type= "EFI system"
-    /dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
+/dev/nvme0n1
+  ↓  ↓→/dev/nvme0n1p1 (1GB) type= "EFI system"
+  ↓→/dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
 
 Check the created partition
 
@@ -144,7 +145,13 @@ Make a timezone
     export LC_COLLATE=C
     echo LANG=$LANG > /etc/locale.conf
     echo KEYMAP=us > /etc/vconsole.conf
-    nano /etc/locale.gen --remove (#) #en_US.UTF-8
+
+Uncomment this line
+
+    nano /etc/locale.gen
+
+    en_US.UTF-8
+
     locale-gen
 
 ## User settings
