@@ -3,15 +3,19 @@ Installation guide for artixlinux with uki, secure boot, LUKS, and btrfs. I use 
 
 Filesystem: btrfs
 
-initramfs and uki: mkinitcpio
+Initramfs and uki: mkinitcpio
 
-wifi: iwd
+Network: iwd
 
-encyrption: luks2
+Encyrption: luks2
 
-secureboot: sbctl
+Secureboot: sbctl
 
-init system: dinit
+Init system: dinit
+
+seat manager: elogind
+
+window manager: niri
 
 ## Root privilege
 
