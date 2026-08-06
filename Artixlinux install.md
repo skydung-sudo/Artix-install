@@ -32,7 +32,7 @@ Divide some part of storage into a pieces of partition
 This is example the layout of partition
 
     /dev/nvme0n1
-    ↓  ↓→/dev/nvme0n1p1 (1GB) type= "EFI system"
+    ↓→/dev/nvme0n1p1 (1GB) type= "EFI system"
     ↓→/dev/nvme0n1p2  (Rest of storage) type="Linux filesystem"
 
 Check the created partition
