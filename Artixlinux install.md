@@ -2,9 +2,13 @@
 Installation guide for artixlinux with uki, secure boot, LUKS, and btrfs. I use example SSD nvme, username and partition so make sure check the number of your partition and type of storage like sata use sdaX. Also it use UEFI.
 
 Filesystem:btrfs
+
 iniratmfs and uki:mkinicpio
+
 wifi:iwd
+
 encyrption:luks2
+
 secureboot:sbctl
 
 
