@@ -7,15 +7,13 @@ Initramfs and uki: mkinitcpio
 
 Network: iwd
 
-Encyrption: luks2
+Encyrption: luks
 
 Secureboot: sbctl
 
 Init system: dinit
 
-seat manager: elogind
-
-window manager: niri
+Seat manager: elogind
 
 ## Root privilege
 
