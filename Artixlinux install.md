@@ -205,7 +205,6 @@ Create this lines
     
 Configure the iwd
 
-    export ESP_PATH=/efi
     mkdir -p /etc/iwd
     nano /etc/iwd/main.conf
 
@@ -257,6 +256,7 @@ Uncomment this lines
 
 Regenerate the initramfs
 
+    export ESP_PATH=/efi
     mkdir -p /efi/EFI/Linux
     mkinitcpio -p linux-zen
 
