@@ -205,6 +205,7 @@ Create this lines
     
 Configure the iwd
 
+    export ESP_PATH=/efi
     mkdir -p /etc/iwd
     nano /etc/iwd/main.conf
 
@@ -266,7 +267,6 @@ Make a Artixlinux support secure boot
     sbctl status
     sbctl create-keys
     sbctl enroll-keys --microsoft
-    export ESP_PATH=/efi
     sbctl verify
     sbctl sign --save /efi/EFI/Linux/artix-linux-zen.efi
     sbctl sign --save /efi/EFI/Linux/artix-linux-zen-fallback.efi
