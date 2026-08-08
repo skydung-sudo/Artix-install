@@ -88,11 +88,9 @@ Mounting all files
 ## Pacman settings
 Make a download faster and easter egg
 
-Configure the pacman.conf
+Configure the pacman.conf and uncomment this lines and add "ILoveCandy" at the last line "misc option"
 
-    nano /etc/pacman.conf
-
-Uncomment this "Misc option" lines and add "ILoveCandy" 
+    nano /etc/pacman.conf 
 
     ParallelDownloads=10
     Color
@@ -162,15 +160,13 @@ Make a timezone
     echo LANG=$LANG > /etc/locale.conf
     echo KEYMAP=us > /etc/vconsole.conf
 
-Modify the locale.gen
+Modify the locale.gen and uncomment this line
 
     nano /etc/locale.gen
 
-Uncomment this line
-
     en_US.UTF-8
 
-Then type this
+Generate the locales from locale.gen
 
     locale-gen
 
@@ -183,32 +179,26 @@ Make a username and add user to sudo privilege
     passwd maxwellbtw
     passwd
   
-Modify the sudo settings
+Modify the sudo settings and uncomment this line
 
     EDITOR=nano visudo
-
-Uncomment this line
     
     %wheel ALL=(ALL:ALL) ALL
 
 ## Networks
 
-Modify the /etc/hosts
+Add the lines to hosts
 
     nano /etc/hosts
-
-Create this lines
 
     127.0.0.1        localhost
     ::1              localhost
     127.0.1.1        artix-asus.localdomain  artix-asus
     
-Configure the iwd
+Add this lines
 
     mkdir -p /etc/iwd
     nano /etc/iwd/main.conf
-
-Add this to /etc/iwd/main.conf
 
     [General]
     EnableNetworkConfiguration=true
@@ -219,12 +209,10 @@ Add this to /etc/iwd/main.conf
 ## UKI
 Use mkinitcpio for generate a kernel and create a uki
 
-Add the kernel parameters for the uki
+Add the kernel parameters
 
     blkid /dev/nvme0n1p2
     nano /etc/kernel/cmdline
-
-Create this lines
 
     cryptdevice=UUID=numberluksid:artixcrypt root=/dev/mapper/artixcrypt rootfstype=btrfs rootflags=subvol=/@ rw
 
@@ -232,23 +220,17 @@ Then copy the cmdline to cmdline_fallback by this command
     
     sudo cp /etc/kernel/cmdline /etc/kernel/cmdline_fallback
 
-Configure mkinitcpio.conf
+Configure mkinitcpio.conf and uncomment at line 37 and add kms, keyboard, keymap, consolefont
     
     nano /etc/mkinitcpio.conf
-
-Uncomment at line 37 and add kms, keyboard, keymap, consolefont
     
     HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)
 
-Modify the preset file
+Uncomment this lines 
     
     nano /etc/mkinitcpio.d/linux-zen.preset
 
-Add the 'fallback' in the PRESETS
-
     PRESETS=('default' 'fallback')
-
-Uncomment this lines
     
     default_uki="/efi/EFI/Linux/artix-linux-zen.efi"
     fallback_uki="/efi/EFI/Linux/artix-linux-zen-fallback.efi"
