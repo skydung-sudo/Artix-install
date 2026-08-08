@@ -183,7 +183,7 @@ Make a username and add user to sudo privilege
     passwd maxwellbtw
     passwd
   
-Uncomment this lines using nano
+Modify the sudo settings
 
     EDITOR=nano visudo
 
