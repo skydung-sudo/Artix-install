@@ -102,7 +102,7 @@ Uncomment this "Misc option" lines and add "ILoveCandy"
 
 Install a basic packages system
 
-    basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode neovim btrfs-progs
+    basestrap /mnt base base-devel linux-zen linux-firmware intel-ucode btrfs-progs
     sudo cp /etc/pacman.conf /mnt/etc/pacman.conf
 
 ## Fstabgen
@@ -134,7 +134,7 @@ Install some necessary packages
     pacman-key --init
     pacman-key --populate artix
     pacman -Sy artix-keyring
-    pacman -S dinit elogind elogind-dinit mkinitcpio egummiboot efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit udev pipewire pipewire-dinit wireplumber git bash alacritty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety bluez bluez-utils
+    pacman -S dinit elogind elogind-dinit mkinitcpio egummiboot efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit udev pipewire pipewire-dinit wireplumber git bash kitty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety bluez bluez-utils
 
 ## Services
 
@@ -162,11 +162,15 @@ Make a timezone
     echo LANG=$LANG > /etc/locale.conf
     echo KEYMAP=us > /etc/vconsole.conf
 
-Uncomment this line
+Modify the locale.gen
 
     nano /etc/locale.gen
 
+Uncomment this line
+
     en_US.UTF-8
+
+Then type this
 
     locale-gen
 
@@ -188,17 +192,19 @@ Uncomment this lines using nano
 ## Networks
 
     nano /etc/hosts
-    
+
+Create this lines
+
     127.0.0.1        localhost
     ::1              localhost
     127.0.1.1        artix-asus.localdomain  artix-asus
-
+    
 Configure the iwd
 
     mkdir -p /etc/iwd
     nano /etc/iwd/main.conf
 
-Add this to main.conf
+Add this to /etc/iwd/main.conf
 
     [General]
     EnableNetworkConfiguration=true
@@ -213,7 +219,9 @@ Add the kernel parameters for the uki
 
     blkid /dev/nvme0n1p2
     nano /etc/kernel/cmdline
-    
+
+Create this lines
+
     cryptdevice=UUID=numberluksid:artixcrypt root=/dev/mapper/artixcrypt rootfstype=btrfs rootflags=subvol=/@ rw
 
 Then copy the cmdline to cmdline_fallback by this command
@@ -223,6 +231,8 @@ Then copy the cmdline to cmdline_fallback by this command
 Configure mkinitcpio.conf
     
     nano /etc/mkinitcpio.conf
+
+Uncomment at line 37 and add kms, keyboard, keymap, consolefont
     
     HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)
 
@@ -276,7 +286,7 @@ To make sure if hooks is work run pacman -S linux-zen
     cryptsetup close artixcrypt
     reboot
 
-### References:
+### References
 https://wiki.archlinux.org/title/User:Bai-Chiang/Arch_Linux_installation_with_unified_kernel_image_(UKI),_full_disk_encryption,_secure_boot,_btrfs_snapshots,_and_common_setups
 
 https://codeberg.org/sabuj/Artix-Install.git#1
