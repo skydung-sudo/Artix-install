@@ -186,10 +186,14 @@ Make a username and add user to sudo privilege
 Uncomment this lines using nano
 
     EDITOR=nano visudo
+
+Uncomment this line
     
     %wheel ALL=(ALL:ALL) ALL
 
 ## Networks
+
+Modify the /etc/hosts
 
     nano /etc/hosts
 
