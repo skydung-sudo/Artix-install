@@ -83,7 +83,7 @@ Mounting all files
     mount -o $MO,subvol=/@var_cache /dev/mapper/artixcrypt /mnt/var/cache
     mount -o $MO,subvol=/@var_log /dev/mapper/artixcrypt /mnt/var/log
     mount -o rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
-    mount -t vfat /dev/nvme0n1p1 /mnt/efi
+    mount -t vfat -o rw,nodev,nosuid,noexec,noatime,fmask=0177,dmask=0077,discard,flush /dev/nvme0n1p1 /mnt/efi
 
 ## Pacman settings
 Make a download faster and easter egg
