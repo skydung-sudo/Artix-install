@@ -127,12 +127,12 @@ Taking some storage for virtual ram
 
 ## Packages
 
-Install some necessary packages
+Install necessary packages
 
     pacman-key --init
     pacman-key --populate artix
     pacman -Sy artix-keyring
-    pacman -S dinit elogind elogind-dinit mkinitcpio egummiboot efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit udev pipewire pipewire-dinit wireplumber git bash kitty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety bluez bluez-utils
+    pacman -S dinit elogind elogind-dinit mkinitcpio efibootmgr efivar cryptsetup iwd iwd-dinit dbus dbus-dinit dbus-dinit-user udev pipewire pipewire-dinit wireplumber wireplumber-dinit pipewire-pulse pipewire-pulse-dinit git bash kitty fastfetch man-db sbctl sudo snapper snap-pac btrfs-assistant wget curl yazi less which zstd cryptsetup-dinit polkit openresolv dosfstools mtools noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd niri wayland xwayland-satellite ufw ufw-dinit mesa intel-media-driver vulkan-intel greetd greetd-dinit greetd-agreety bluez bluez-utils 
 
 ## Services
 
