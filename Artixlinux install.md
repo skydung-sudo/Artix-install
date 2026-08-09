@@ -17,6 +17,8 @@ Init system: dinit
 
 Seat manager: elogind
 
+Allocated example storage: 120G
+
 ## Root privilege
 
 Run as administrator
@@ -31,13 +33,10 @@ Divide some part of storage into a pieces of partition
 
 This is example the layout of partition
 
-    nvme0n1
-    ├─nvme0n1p1 (1GB) type= "EFI system" /efi
-    └─nvme0n1p2 (Rest of storage) type="Linux filesystem" /
-
-Check the created partition
-
-    lsblk
+    Name        Size       Type
+    nvme0n1     
+    ├─nvme0n1p1 1G   EFI system
+    └─nvme0n1p2 120G Linux filesystem 
 
 ## Encryption
 
@@ -51,7 +50,7 @@ For security purposes
 Format the filesystem for boot partition and root partition
 
     mkfs.vfat -n ARTIXEFI -F32 /dev/nvme0n1p1
-    mkfs.btrfs /dev/mapper/artixcrypt
+    mkfs.btrfs -L ARTIXLUKS /dev/mapper/artixcrypt
 
 ## Mounts and subvolumes
 
@@ -73,6 +72,8 @@ Create a subvolumes
 Create the variable
     
     MO=rw,nodev,noatime,compress=zstd:3,ssd,discard=async,space_cache=v2,commit=150
+    MS=rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async
+    ME=rw,nodev,nosuid,noexec,noatime,fmask=0177,dmask=0077,discard,flush
 
 Mounting all files
     
@@ -82,8 +83,8 @@ Mounting all files
     mount -o $MO,subvol=/@.snapshots /dev/mapper/artixcrypt /mnt/.snapshots
     mount -o $MO,subvol=/@var_cache /dev/mapper/artixcrypt /mnt/var/cache
     mount -o $MO,subvol=/@var_log /dev/mapper/artixcrypt /mnt/var/log
-    mount -o rw,nodev,noatime,nodatacow,nodatasum,ssd,discard=async,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
-    mount -t vfat -o rw,nodev,nosuid,noexec,noatime,fmask=0177,dmask=0077,discard,flush /dev/nvme0n1p1 /mnt/efi
+    mount -o $MS,subvol=/@swap /dev/mapper/artixcrypt /mnt/swap
+    mount -t vfat -o $ME /dev/nvme0n1p1 /mnt/efi
 
 ## Pacman settings
 Make a download faster and easter egg
