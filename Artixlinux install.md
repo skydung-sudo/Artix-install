@@ -5,7 +5,7 @@ Filesystem: btrfs
 
 Initramfs: mkinitcpio
 
-Bootloader:uki
+Bootloader: uki
 
 Network: iwd
 
